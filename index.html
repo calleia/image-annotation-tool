@@ -24,9 +24,10 @@
 <body>
 	<canvas id="canvas" width="500" height="500"></canvas>
 
-	<input name="imageUrl" id="imageUrl" class="imageUrl" type="text" />
-
-	<button type="button" onclick="loadImage()">Load image</button>
+	<form>
+		<input type="text" name="imageUrl" id="imageUrl" class="imageUrl" />
+		<button type="button" onclick="loadImage()">Load image</button>
+	</form>
 
 	<script>
 		document.getElementById("imageUrl").value = "https://placekitten.com/500/500"
