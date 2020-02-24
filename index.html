@@ -9,6 +9,11 @@
 	</style>
 
 	<script>
+		var initialX = 0;
+		var initialY = 0;
+		var finalX = 0;
+		var finalY = 0;
+
 		function loadImage() {
 			var canvas = document.getElementById("canvas");
 			var context = canvas.getContext('2d');
@@ -19,17 +24,51 @@
 			image.src = document.getElementById("imageUrl").value;
 		}
 
+		function drawBox(initialX, initialY, finalX, finalY) {
+			var canvas = document.getElementById("canvas");
+			var context = canvas.getContext('2d');
+			context.beginPath();
+			context.lineWidth = "2";
+			context.strokeStyle = "red";
+			context.moveTo(initialX, initialY);
+			context.lineTo(finalX, initialY);
+			context.lineTo(finalX, finalY);
+			context.lineTo(initialX, finalY);
+			context.lineTo(initialX, initialY);
+			context.stroke();
+
+			console.log(`(${initialX}, ${initialY}) ~ (${finalX}, ${finalY})`);
+		}
+
 		function addEventListeners() {
 			var canvas = document.getElementById("canvas");
 
-			canvas.addEventListener("mousedown", function (e) {
-				console.log("Down");
-				console.log(e);
+			canvas.addEventListener("mousedown", function (event) {
+				console.log("Mouse event = DOWN ");
+
+				var imageX = event.clientX - canvas.offsetLeft;
+                var imageY = event.clientY - canvas.offsetTop;
+
+                console.log(`Image coords = (${imageX}, ${imageY})`);
+                console.log(`Client coords = (${event.clientX}, ${event.clientY})`);
+
+                initialX = imageX;
+                initialY = imageY;
 			}, false);
 
-			canvas.addEventListener("mouseup", function (e) {
-				console.log("Up");
-				console.log(e);
+			canvas.addEventListener("mouseup", function (event) {
+				console.log("Mouse event = UP");
+
+                var imageX = event.clientX - canvas.offsetLeft;
+                var imageY = event.clientY - canvas.offsetTop;
+
+                console.log(`Image coords = (${imageX}, ${imageY})`);
+                console.log(`Client coords = (${event.clientX}, ${event.clientY})`);
+
+                finalX = imageX;
+                finalY = imageY;
+
+                drawBox(initialX, initialY, finalX, finalY);
 			}, false);
 		}
 	</script>
