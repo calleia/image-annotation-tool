@@ -16,7 +16,19 @@
 			image.onload = function() {
 				context.drawImage(image, 0, 0, canvas.width, canvas.height);
 			};
-			image.src = document.getElementById("imageUrl").value
+			image.src = document.getElementById("imageUrl").value;
+		}
+
+		function addEventListeners() {
+			var canvas = document.getElementById("canvas");
+
+			canvas.addEventListener("mousedown", function (e) {
+				console.log("Down");
+			}, false);
+
+			canvas.addEventListener("mouseup", function (e) {
+				console.log("Up");
+			}, false);
 		}
 	</script>
 </head>
@@ -31,6 +43,7 @@
 
 	<script>
 		document.getElementById("imageUrl").value = "https://placekitten.com/500/500"
+		addEventListeners();
 	</script>
 </body>
 
