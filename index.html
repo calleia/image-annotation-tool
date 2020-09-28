@@ -14,12 +14,16 @@
 		var finalX = 0;
 		var finalY = 0;
 
-		function loadImage() {
+		function loadImage(e) {
+			e.preventDefault();
 			var canvas = document.getElementById("canvas");
 			var context = canvas.getContext('2d');
 			var image = new Image();
 			image.onload = function() {
+				canvas.width = image.width;
+				canvas.height = image.height;
 				context.drawImage(image, 0, 0, canvas.width, canvas.height);
+				console.log(`Image loaded (${image.width} x ${image.height} pixels)`);
 			};
 			image.src = document.getElementById("imageUrl").value;
 		}
@@ -41,45 +45,46 @@
 		}
 
 		function addEventListeners() {
+			var form = document.getElementById("form");
 			var canvas = document.getElementById("canvas");
 
-			canvas.addEventListener("mousedown", function (event) {
-				console.log("Mouse event = DOWN ");
+			form.addEventListener("submit", loadImage, false);
 
+			canvas.addEventListener("mousedown", function (event) {
 				var imageX = event.clientX - canvas.offsetLeft;
                 var imageY = event.clientY - canvas.offsetTop;
 
-                console.log(`Image coords = (${imageX}, ${imageY})`);
-                console.log(`Client coords = (${event.clientX}, ${event.clientY})`);
-
                 initialX = imageX;
                 initialY = imageY;
+
+                console.log("Mouse event = DOWN ");
+                console.log(`Image coords = (${imageX}, ${imageY})`);
+                console.log(`Client coords = (${event.clientX}, ${event.clientY})`);
 			}, false);
 
 			canvas.addEventListener("mouseup", function (event) {
-				console.log("Mouse event = UP");
-
                 var imageX = event.clientX - canvas.offsetLeft;
                 var imageY = event.clientY - canvas.offsetTop;
-
-                console.log(`Image coords = (${imageX}, ${imageY})`);
-                console.log(`Client coords = (${event.clientX}, ${event.clientY})`);
 
                 finalX = imageX;
                 finalY = imageY;
 
                 drawBox(initialX, initialY, finalX, finalY);
+
+                console.log("Mouse event = UP");
+                console.log(`Image coords = (${imageX}, ${imageY})`);
+                console.log(`Client coords = (${event.clientX}, ${event.clientY})`);
 			}, false);
 		}
 	</script>
 </head>
 
 <body>
-	<canvas id="canvas" width="500" height="500"></canvas>
+	<canvas id="canvas"></canvas>
 
-	<form>
+	<form id="form">
 		<input type="text" name="imageUrl" id="imageUrl" class="imageUrl" />
-		<button type="button" onclick="loadImage()">Load image</button>
+		<input type="submit" value="Load image"></input>
 	</form>
 
 	<script>
